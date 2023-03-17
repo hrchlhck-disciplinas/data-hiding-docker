@@ -1,0 +1,10 @@
+FROM ubuntu
+
+RUN apt update && apt install unzip zip
+
+ADD cat.jpeg .
+ADD senha.txt .
+
+RUN zip senha.zip senha.txt \
+    && cat cat.jpeg senha.zip > cat_new.jpeg \
+    && rm senha.zip senha.txt
