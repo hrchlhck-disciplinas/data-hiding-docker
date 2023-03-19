@@ -1,10 +1,14 @@
+# Imagem base do Python na versão 3.10, sendo ela slim, ou seja, mais leve
 FROM python:3.10-slim
 
+# Especifica o diretório onde queremos incluir os dados
 WORKDIR /app
 
-RUN apt update && apt install zip unzip
+# Instalando pacote do Python para fazer requisições HTTP
+RUN pip install requests
 
-ADD cat.jpeg .
-ADD main.py .
+# Adiciona o arquivo 'carrega_imagem.py' do host no diretório '/app' do container
+ADD carrega_imagem.py .
 
-ENTRYPOINT ["python3", "main.py"]
+# Especificando qual comando executar primeiro quando dermos 'docker run'
+ENTRYPOINT ["python3", "carrega_imagem.py"]
