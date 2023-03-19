@@ -44,15 +44,11 @@ def carrega_base_usuarios(url: str) -> dict:
 
 if __name__ == '__main__':
     FILE = os.environ.get('PASSWORD_FILE')
-    USER = os.environ.get('USERNAME')
     PASSWORD_URL = os.environ.get('PASSWORD_URL')
     USER_DATABASE = os.environ.get('USER_DATABASE')
 
     if not FILE:
         print("Está faltando declarar a variável de ambiente PASSWORD_FILE")
-        exit(1)
-    elif not USER:
-        print("Está faltando declarar a variável de ambiente USERNAME")
         exit(1)
     elif not PASSWORD_URL:
         print("Está faltando declarar a variável de ambiente PASSWORD_URL")
@@ -68,10 +64,10 @@ if __name__ == '__main__':
     user, senha = extrai_senha(FILE)
     usuarios = carrega_base_usuarios(USER_DATABASE)
 
-    hash_username = hashlib.sha256(USER.encode()).hexdigest()
+    hash_username = hashlib.sha256(user.encode()).hexdigest()
     hash_password = hashlib.sha256(senha.encode()).hexdigest()
 
-    usuario = usuarios.get(hash_username)
+    usuario = hash_username in usuarios
 
-    if usuario and hash_password == usuarios[usuario]:
+    if usuario and hash_password == usuarios[hash_username]:
         print('Usuário', user, 'autenticado com sucesso!')
